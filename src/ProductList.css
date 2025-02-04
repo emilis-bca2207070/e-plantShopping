@@ -249,4 +249,13 @@ body {
       .ul div {
         text-align: center; /* Align text to the center */
       }
+
+      .cart-count{
+        position: absolute;
+        height: 68px;
+        width: 68px;
+        text-align: center;
+        font-size: 30px;
+        line-height: 68px;
+      }
   }
