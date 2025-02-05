@@ -9,6 +9,7 @@ function ProductList() {
     const [addedToCart, setAddedToCart] = useState({});
     const [cartCount, setCartCount] = useState(0);
     const dispatch = useDispatch();
+    const cartItems = useSelector(state => state.cart.items);
 
     const plantsArray = [
         {
@@ -245,6 +246,13 @@ function ProductList() {
         fontSize: '30px',
         lineHeight: '68px'
     }
+    const styleDisabledButton = {
+        backgroundColor: 'light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3))',
+        color: 'light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3))',
+        borderColor: 'light-dark(rgba(118, 118, 118, 0.3), rgba(195, 195, 195, 0.3))',
+        cursor: 'not-allowed'
+    }
+    
     const handleCartClick = (e) => {
         e.preventDefault();
         setShowCart(true); // Set showCart to true when cart icon is clicked
@@ -258,6 +266,13 @@ function ProductList() {
     const handleContinueShopping = (e) => {
         e.preventDefault();
         setShowCart(false);
+        setAddedToCart({});
+        cartItems.forEach(item => {
+            setAddedToCart((prevState) => ({
+                ...prevState,
+                [item.name]: true, // Set the product name as key and value as true to indicate it's added to cart
+            }));
+        })
     };
 
     const handleCartQuantityUpdate = (count) => {
@@ -312,7 +327,7 @@ function ProductList() {
                                         <img className="product-image" src={plant.image} alt={plant.name} />
                                         <div className="product-title">{plant.name}</div>
                                         {/*Similarly like the above plant.name show other details like description and cost*/}
-                                        <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                        <button disabled={addedToCart.hasOwnProperty(plant.name)} style={addedToCart.hasOwnProperty(plant.name)? styleDisabledButton: {}} className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
                                     </div>
                                 ))}
                             </div>
